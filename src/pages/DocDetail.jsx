@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../supabaseClient";
 import ReactMarkdown from "react-markdown";
 import rehypeSlug from "rehype-slug";
