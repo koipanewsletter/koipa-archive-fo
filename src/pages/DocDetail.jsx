@@ -3,7 +3,7 @@ import { supabase } from "../supabaseClient";
 import ReactMarkdown from "react-markdown";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import GithubSlugger from "github-slugger";
+import { slug as githubSlug } from "github-slugger";
 
 function Toc({ toc, activeId }) {
   return (
