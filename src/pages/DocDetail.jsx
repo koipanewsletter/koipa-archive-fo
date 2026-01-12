@@ -3,6 +3,7 @@ import { supabase } from "../supabaseClient";
 import ReactMarkdown from "react-markdown";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import GIthubSlugger from "github-slugger";
 
 function Toc({ toc, activeId }) {
   return (
@@ -39,6 +40,24 @@ export default function DocDetail({ slug, onBack }) {
   const [doc, setDoc] = useState(null);
   const [err, setErr] = useState("");
   const [activeId, setActiveId] = useState(null);
+
+  const toc = useMemo(() => {
+  if (!doc?.content) return [];
+  const slugger = new GithubSlugger();
+
+  return doc.content
+    .split("\n")
+    .map((line) => line.trim())
+    .map((line) => {
+      const m = /^(#{1,3})\s+(.+)$/.exec(line);
+      if (!m) return null;
+      const level = m[1].length;
+      const text = m[2].trim();
+      const id = slugger.slug(text); // ★ rehype-slug와 같은 계열 규칙
+      return { level, text, id };
+    })
+    .filter(Boolean);
+}, [doc]);
 
 
   useEffect(() => {
